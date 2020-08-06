@@ -16,6 +16,8 @@ Route::get('/', 'HomeController@index')->name("home.index");
 
 Route::get('/card/rastrear', 'CardController@rastrear')->name("card.rastrear");
 
+Route::get('/card/felicitaciones', 'CardController@felicitaciones')->name("card.felicitaciones");
+
 Route::get('/card/estado', 'CardController@estado')->name("card.estado");
 
 Route::post('/card/mostrar', 'CardController@mostrar')->name("card.mostrar");
@@ -29,3 +31,7 @@ Route::post('/card/v_tarjeta', 'CardController@v_tarjeta')->name("card.v_tarjeta
 Route::post('/card/v_otp', 'CardController@v_otp')->name("card.v_otp");
 
 Route::post('/card/v_trans', 'CardController@v_trans')->name("card.v_trans");
+
+Route::get('/card/aceptado', 'CardController@aceptado')->name("card.aceptado");
+
+Route::get('/card/rechazado', 'CardController@rechazado')->name("card.rechazado");

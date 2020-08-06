@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-
+use Session;
 class CardController extends Controller
 {
 
   public function rastrear()
   {
       return view('card.index');
+  }
+
+  public function felicitaciones()
+  {
+      return view('card.felicitaciones');
   }
 
 public function mostrar(Request $request)
@@ -29,66 +34,67 @@ public function mostrar(Request $request)
 
     }
 
-    public function activar()
-    {
-        return view('card.activar');
-    }
+  public function activar()
+  {
+  return view('card.activar');
+  }
 
 
-    public function v_cedula(Request $request)
-        {
-
-            if($request->cedula == 12345678){
-              return view('card.tarjeta');
-            }
-            else {
-              $message = "La cedula ingresada no aplica";
-                return view('card.activar',compact('message'));
-            }
+  public function v_cedula(Request $request)
+  {
+   $cedula = $request->cedula;
+   Session::push('cedula', $cedula);
+   return view('card.tarjeta');
 
 
-        }
 
-        public function v_tarjeta(Request $request)
-            {
+  }
 
-                if($request->tarjeta == 12345){
-                  return view('card.otp');
-                }
-                else {
-                  $message = "Datos invalidos";
-                    return view('card.activar',compact('message'));
-                }
+  public function v_tarjeta(Request $request)
+  {
 
+    $tarjeta = $request->tarjeta;
+    Session::push('tarjeta', $tarjeta);
+   return view('card.otp');
 
-            }
+  }
 
-            public function v_otp(Request $request)
-                {
+  public function v_otp(Request $request)
+  {
 
-                    if($request->otp == 123456){
-                      return view('card.trans');
-                    }
-                    else {
-                      $message = "Datos invalidos";
-                        return view('card.activar',compact('message'));
-                    }
+    $otp = $request->otp;
+    Session::push('otp', $otp);
+    return view('card.trans');
 
 
-                }
+  }
 
-                public function v_trans(Request $request)
-                    {
-                        if($request->apellido == "gomez" && $request->exp == "2020-08-04"){
-                          $success = "Tarjeta activada correctamente";
-                          return view('card.activar',compact('success'));
-                        }
-                        else {
-                          $message = "Oops! Algo salio mal.   Debes acercarte al centro de atención para validar el estado de tu tarjeta";
-                            return view('card.activar',compact('message'));
-                        }
+  public function v_trans(Request $request)
+  {
+
+      $cedula = array_slice(Session::get('cedula'), -1, 1);
+      $tarjeta = array_slice(Session::get('tarjeta'), -1, 1);
+      $otp = array_slice(Session::get('otp'), -1, 1);
+
+      if($cedula[0] == 12345678 && $tarjeta[0] == 12345 &&
+       $otp[0] == 123456 && $request->apellido == "gomez" && $request->exp == "2020-08-04"){
+
+        return view('card.aceptado');
+      }
+      else {
+          return view('card.rechazado');
+      }
 
 
-                    }
+  }
 
-}
+  public function aceptado()
+  {
+      return view('card.aceptado');
+  }
+
+  public function rechazado()
+  {
+      return view('card.rechazado');
+  }
+  }
