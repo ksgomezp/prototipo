@@ -27,8 +27,7 @@ public function mostrar(Request $request)
           return view('card.estado')->with('imagen', $imagen);
         }
         else {
-          $message = "Información ingresada sin registros";
-            return view('card.index',compact('message'));
+          return view('card.rechazado');
         }
 
 
