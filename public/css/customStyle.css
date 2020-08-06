@@ -1,0 +1,9 @@
+.card-header{
+    font-weight: bold;
+}
+
+.texto-abajo{
+    position: absolute;
+    top: -350px;
+    left: 200px;
+}
